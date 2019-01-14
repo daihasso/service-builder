@@ -43,11 +43,16 @@ FROM daihasso/service-runner:latest
 
 ## Dockerfile Build Args
 **PACKAGE_NAME**: Defines the final package name to be built.
+
 **UPX_ARGS**: Optionally define extra args to [upx](https://upx.github.io/).
+
 **FRAMEWORK_PACKAGE**: Defines the package which contains the exported values
 `Version`, `GitHash`, and `SemVer` for overriding at build-time.
+
 **VERSION**: The raw root version for this build such as `1.0.0`.
+
 **GITHASH**: The short githash to append to the version if the branch is dirty.
+
 **SEMVER**: The full semver version as you wanted it represented such as
  `1.0.0-alpha-e19668f`.
 
