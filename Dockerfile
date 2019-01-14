@@ -15,11 +15,10 @@ RUN chmod +x /usr/local/bin/dep
 COPY files/build_flags.sh /build_flags.sh
 
 # === Onbuild Begin ===
-# If you need ssh_info is a container with custom ssh info. It can just be a
-# simple scratch with ssh keys included or with an empty /root/.ssh if you don't
-# need anything.
-ONBUILD COPY --from=ssh_info /root/.ssh /root/.ssh
-
+# If you need custom files such as ssh keys, gitconfig, etc they can be placed
+# in a scratch container with the correct file structure and they will be
+# copied to this container on build.
+ONBUILD COPY --from=custom_files / /
 
 # === Required ARGs ===
 #
