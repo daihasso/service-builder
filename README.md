@@ -52,5 +52,5 @@ FROM daihasso/service-runner:latest
  `1.0.0-alpha-e19668f`.
 
 ## Requirements
-This dockerfile expects at minimum a `Gopkg.toml` and `Gopkg.lock` to be
- present though something to build probably makes sense too.
+This dockerfile expects at minimum a `go.mod` and `go.sum` to be present
+though something to build probably makes sense too.

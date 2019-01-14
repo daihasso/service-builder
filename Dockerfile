@@ -2,16 +2,10 @@ FROM golang:alpine
 
 RUN apk update && apk add openssh git upx git
 
-ENV DEP_VERSION v0.5.0
+ENV GO111MODULE=on
 ENV OS linux
 ENV ARCH amd64
 
-LABEL dep_version=${DEP_VERSION}
-
-RUN wget \
-    https://github.com/golang/dep/releases/download/$DEP_VERSION/dep-$OS-$ARCH
-RUN mv ./dep-$OS-$ARCH /usr/local/bin/dep
-RUN chmod +x /usr/local/bin/dep
 COPY files/build_flags.sh /build_flags.sh
 
 # === Onbuild Begin ===
@@ -76,8 +70,8 @@ ONBUILD RUN if [ -z "$PACKAGE_NAME" ]; then echo "NOT SET - ERROR"; exit 1; fi
 ONBUILD RUN echo "Building package '${PACKAGE_NAME}'..."
 
 ONBUILD WORKDIR /go/src/${PACKAGE_NAME}
-ONBUILD COPY Gopkg.toml Gopkg.lock ./
-ONBUILD RUN dep ensure -v --vendor-only
+ONBUILD COPY go.mod go.sum ./
+ONBUILD RUN go mod download
 ONBUILD COPY . ./
 
 ONBUILD RUN sh /build_flags.sh
