@@ -2,7 +2,7 @@
 # githash, and semver and passes them on to as build flags for build in the
 # final app.
 #
-extra_flag_prefix="-X $PACKAGE_NAME/$FRAMEWORK_PACKAGE"
+extra_flag_prefix="-X $FRAMEWORK_PACKAGE"
 
 extra_build_flags=""
 if [[ -z "$VERSION" ]]; then
