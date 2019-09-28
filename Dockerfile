@@ -1,4 +1,7 @@
-FROM golang:alpine
+ARG GO_VERSION=1.13.1
+FROM golang:$GO_VERSION-alpine
+
+LABEL "go.version"="$GO_VERSION"
 
 RUN apk update && apk add openssh git upx git
 
