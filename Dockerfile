@@ -22,6 +22,14 @@ ONBUILD ARG PACKAGE_NAME
 
 # === Optional ARGs ===
 #
+# Repos that are private. Set before calling go mod.
+# More information on syntax here: https://tinyurl.com/yy9buq26
+# Example:
+#   GOPRIVATE="mycompany.com/*"
+#
+ONBUILD ARG GOPRIVATE
+
+#
 # UPX_ARGS are args passed directly into upx.
 # Example:
 #   UPX_ARGS="--best --ultra-brute"
@@ -64,6 +72,8 @@ ONBUILD ARG SEMVER
 
 ONBUILD RUN if [ -f /root/.ssh/id_rsa ]; then chmod 700 /root/.ssh/id_rsa; fi
 ONBUILD RUN if [ -f /root/.ssh/config ]; then chmod 600 /root/.ssh/config; fi
+
+ONBUILD RUN if [ -v "$GOPRIVATE" ]; then go env -w 'GOPRIVATE=${GOPRIVATE}'; fi
 
 ONBUILD RUN if [ -z "$PACKAGE_NAME" ]; then echo "NOT SET - ERROR"; exit 1; fi
 

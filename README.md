@@ -44,6 +44,10 @@ FROM daihasso/service-runner:latest
 ## Dockerfile Build Args
 **PACKAGE_NAME**: Defines the final package name to be built.
 
+**GOPRIVATE**: Optionally a pattern to match for private repos.
+ See more about GOPRIVATE 
+[here](https://golang.org/cmd/go/#hdr-Module_configuration_for_non_public_modules).
+
 **UPX_ARGS**: Optionally define extra args to [upx](https://upx.github.io/).
 
 **FRAMEWORK_PACKAGE**: Defines the package which contains the exported values
