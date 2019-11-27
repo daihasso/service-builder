@@ -73,7 +73,7 @@ ONBUILD ARG SEMVER
 ONBUILD RUN if [ -f /root/.ssh/id_rsa ]; then chmod 700 /root/.ssh/id_rsa; fi
 ONBUILD RUN if [ -f /root/.ssh/config ]; then chmod 600 /root/.ssh/config; fi
 
-ONBUILD RUN if [ -v "$GOPRIVATE" ]; then go env -w 'GOPRIVATE=${GOPRIVATE}'; fi
+ONBUILD RUN if [ ! -z "$GOPRIVATE" ]; then go env -w 'GOPRIVATE=${GOPRIVATE}'; fi
 
 ONBUILD RUN if [ -z "$PACKAGE_NAME" ]; then echo "NOT SET - ERROR"; exit 1; fi
 
