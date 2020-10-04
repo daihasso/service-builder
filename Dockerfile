@@ -90,8 +90,10 @@ ONBUILD RUN sh /build_flags.sh
 
 ONBUILD RUN echo "Building package '${PACKAGE_NAME}'..."
 
-ONBUILD RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags \
-        "$(cat /buildflags)-s -w" -o /app ./...
+ONBUILD ARG BUILD_PACKAGE
+
+ONBUILD RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags \
+        "$(cat /buildflags)-s -w" -o /app ${BUILD_PACKAGE:-.}
 
 #
 # UPX_ARGS are args passed directly into upx.
@@ -100,9 +102,13 @@ ONBUILD RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags \
 #
 ONBUILD ARG UPX_ARGS
 
-ONBUILD RUN echo "Compressing binary using upx with args: $UPX_ARGS"
+ONBUILD ARG USE_UPX
 
-ONBUILD RUN upx $UPX_ARGS /app &> /tmp/out.log && tail -5 /tmp/out.log | \
-        head -3
+ONBUILD RUN if [ ${USE_UPX:-1} -eq 1 ]; then \
+            echo "Compressing binary using upx with args: $UPX_ARGS"; fi
+
+ONBUILD RUN if [ ${USE_UPX:-1} -eq 1 ]; then \
+            upx $UPX_ARGS /app &> /tmp/out.log && tail -5 /tmp/out.log | \
+            head -3; fi
 
 ONBUILD RUN echo "Copying compiled go binary to final container..."
